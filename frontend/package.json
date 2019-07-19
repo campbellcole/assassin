@@ -12,8 +12,8 @@
     "url": "git+https://github.com/campbellcole/assassin.git"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Campbell M. Cole",
+  "license": "GPL-3.0",
   "bugs": {
     "url": "https://github.com/campbellcole/assassin/issues"
   },
