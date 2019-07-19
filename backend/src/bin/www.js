@@ -5,6 +5,7 @@
  */
 
 import app from '../app';
+import socket from './socket';
 import debugLib from 'debug';
 import http from 'http';
 const debug = debugLib('backend:server');
@@ -21,6 +22,12 @@ app.set('port', port);
  */
 
 var server = http.createServer(app);
+
+/**
+ * Prepare socket
+ */
+
+socket(server);
 
 /**
  * Listen on provided port, on all network interfaces.
