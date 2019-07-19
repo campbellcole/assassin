@@ -11,9 +11,9 @@ class HeaderContainer extends React.Component {
   render() {
     const { currentPage, clickHandler } = this.props;
     return (
-      <nav>
+      <nav className="grey darken-3">
         <div id="nav-wrapper">
-        <a className="brand-logo">Assassin</a>
+          <a className="brand-logo">Assassin</a>
           <ul id="nav-mobile" className="right hide-on-med-and-down">
             <HeaderItem text="Home" active={ currentPage == 0 ? true : false } clickHandler={() => clickHandler(0) } />
             <HeaderItem text="Register" active={ currentPage == 1 ? true : false } clickHandler={() => clickHandler(1) } />
