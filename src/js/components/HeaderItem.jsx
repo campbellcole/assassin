@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 
 const HeaderItem = ({ text, active, clickHandler }) => (
   <li className={ active ? "active" : "" }>
-  <a href="#" onClick={() => clickHandler() }>
-  <span>{ text }</span>
+  <a onClick={() => clickHandler() }>
+  { text }
   </a>
   </li>
 );

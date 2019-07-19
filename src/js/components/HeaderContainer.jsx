@@ -1,8 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-import css from "./../../css/Header.css";
-
 import HeaderItem from "./HeaderItem.jsx";
 
 class HeaderContainer extends React.Component {
@@ -13,13 +11,16 @@ class HeaderContainer extends React.Component {
   render() {
     const { currentPage, clickHandler } = this.props;
     return (
-      <div id="header">
-        <ul>
-          <HeaderItem text="Home" active={ currentPage == 0 ? true : false } clickHandler={() => clickHandler(0) } />
-          <HeaderItem text="Register" active={ currentPage == 1 ? true : false } clickHandler={() => clickHandler(1) } />
-          <HeaderItem text="Standings" active={ currentPage == 2 ? true : false } clickHandler={() => clickHandler(2) } />
-        </ul>
-      </div>
+      <nav>
+        <div id="nav-wrapper">
+        <a className="brand-logo">Assassin</a>
+          <ul id="nav-mobile" className="right hide-on-med-and-down">
+            <HeaderItem text="Home" active={ currentPage == 0 ? true : false } clickHandler={() => clickHandler(0) } />
+            <HeaderItem text="Register" active={ currentPage == 1 ? true : false } clickHandler={() => clickHandler(1) } />
+            <HeaderItem text="Standings" active={ currentPage == 2 ? true : false } clickHandler={() => clickHandler(2) } />
+          </ul>
+        </div>
+      </nav>
     );
   }
 }
