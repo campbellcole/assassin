@@ -11,6 +11,7 @@ import FooterContainer from "./FooterContainer.jsx";
 var pages = [ HomePage, RegisterPage, StandingsPage ];
 
 class RootContainer extends React.Component {
+
   constructor() {
     super();
     this.state = {
@@ -26,15 +27,16 @@ class RootContainer extends React.Component {
   render() {
     const CurrentPage = pages[this.state.currentPage];
     return (
-      <div className="full-flex">
+      <div className="content">
         <HeaderContainer currentPage={this.state.currentPage} clickHandler={(ind) => this.loadPage(ind) }/>
-        <main className="full-flex">
+        <div id="page">
           <CurrentPage />
-        </main>
+        </div>
         <FooterContainer />
       </div>
     );
   }
+
 }
 
 export default RootContainer;

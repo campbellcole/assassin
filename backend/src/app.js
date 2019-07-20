@@ -7,6 +7,7 @@ import Database from './bin/db';
 
 import indexRouter from './routes/index';
 import registerRouter from './routes/register';
+import gameRouter from './routes/game';
 
 var db = new Database(path.join(__dirname, '../private/db.json'));
 
@@ -20,6 +21,7 @@ app.use(express.static(path.join(__dirname, '../public')));
 
 app.use('/', indexRouter);
 app.use('/register', registerRouter);
+app.use('/game', gameRouter);
 
 export default app;
 

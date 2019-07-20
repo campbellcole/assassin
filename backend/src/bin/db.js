@@ -62,6 +62,10 @@ class Database {
     return RET.OK;
   }
 
+  getGameData() {
+    return this.db.get('game').value();
+  }
+
 }
 
 export default Database;

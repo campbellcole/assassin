@@ -33,7 +33,7 @@ var PageRegister = (
         </div>
       </div>
       <div className="row center-align">
-        <button className="btn waves-effect waves-light grey darken-4 disabled" type="submit">
+        <button className="btn waves-effect waves-light grey darken-4" type="submit">
           Submit
         </button>
       </div>
