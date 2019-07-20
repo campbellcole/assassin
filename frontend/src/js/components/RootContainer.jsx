@@ -6,6 +6,7 @@ import css from '../../css/Root.css';
 import { HomePage, RegisterPage, StandingsPage } from "./Pages.jsx"
 
 import HeaderContainer from "./HeaderContainer.jsx";
+import FooterContainer from "./FooterContainer.jsx";
 
 var pages = [ HomePage, RegisterPage, StandingsPage ];
 
@@ -25,9 +26,12 @@ class RootContainer extends React.Component {
   render() {
     const CurrentPage = pages[this.state.currentPage];
     return (
-      <div id="content">
+      <div className="full-flex">
         <HeaderContainer currentPage={this.state.currentPage} clickHandler={(ind) => this.loadPage(ind) }/>
-        <CurrentPage />
+        <main className="full-flex">
+          <CurrentPage />
+        </main>
+        <FooterContainer />
       </div>
     );
   }
