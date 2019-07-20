@@ -1,6 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
+import css from '../../css/Root.css';
+
 import { HomePage, RegisterPage, StandingsPage } from "./Pages.jsx"
 
 import HeaderContainer from "./HeaderContainer.jsx";

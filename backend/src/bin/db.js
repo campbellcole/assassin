@@ -4,8 +4,11 @@ import FileSync from 'lowdb/adapters/FileSync';
 import User from './struct/user';
 
 const RET = {
-  OK: 0,
-  USER_NOT_FOUND: 1
+  OK: { code: 0, msg: "OK" },
+  USER_NOT_FOUND: { code: 1, msg: "user not found" },
+  USER_ALREADY_EXISTS: { code: 2, msg: "user already exists" },
+  EMAIL_ALREADY_IN_USE: { code: 3, msg: "email address already in use" },
+  PHONE_ALREADY_IN_USE: { code: 4, msg: "phone number already in use" }
 }
 
 class Database {
@@ -19,14 +22,14 @@ class Database {
   getDefaults() {
     return {
       users: [
-        new User("admin", "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8", "test name", "email", "phone", true)
+        new User('admin', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8', 'test name', 'email', 'phone', true)
       ],
       game: {
         in_progress: false,
         teams: [
           {
-            name: "test team",
-            users: [ "admin" ]
+            name: 'test team',
+            users: [ 'admin' ]
           }
         ]
       }
@@ -48,8 +51,11 @@ class Database {
     }
   }
 
-  addUser(username, pass, name, email, phone, verified) {
-    var user = new User(username, pass, name, email, phone, verified);
+  addUser(username, password, name, email, phone, verified) {
+    if (undefined !== this.db.get('users').find(['username', username]).value()) return RET.USER_ALREADY_EXISTS;
+    if (undefined !== this.db.get('users').find(['email', email]).value()) return RET.EMAIL_ALREADY_IN_USE;
+    if (undefined !== this.db.get('users').find(['phone', phone]).value()) return RET.PHONE_ALREADY_IN_USE;
+    var user = new User(username, password, name, email, phone, verified);
     this.db.get('users')
            .push(user)
            .write();
@@ -59,3 +65,4 @@ class Database {
 }
 
 export default Database;
+export { RET };
