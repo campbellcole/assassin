@@ -6,7 +6,7 @@ class StandingsContainer extends React.Component {
   constructor(standings) {
     super();
     console.log(standings);
-    this.standings = standings.standings;
+    this.standings = standings; // do this for now unless shown to be useless
     this.gameStatus = this.standings.in_progress ? "The game has started." : "The game has not yet started.";
   }
 

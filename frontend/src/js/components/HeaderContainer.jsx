@@ -1,8 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-import HeaderItem from "./HeaderItem.jsx";
-
 class HeaderContainer extends React.Component {
 
   constructor() {
@@ -14,7 +12,8 @@ class HeaderContainer extends React.Component {
     return (
       <nav className="grey darken-3">
         <div id="nav-wrapper">
-          <a className="brand-logo">Assassin by Campbell Cole</a>
+          <a className="brand-logo">Assassin</a>
+          <a href="#" data-target="slide-out" className="sidenav-trigger"><i className="material-icons">menu</i></a>
           <ul id="nav-mobile" className="right hide-on-med-and-down">
             <HeaderItem text="Home" active={ currentPage == 0 ? true : false } clickHandler={() => clickHandler(0) } />
             <HeaderItem text="Register" active={ currentPage == 1 ? true : false } clickHandler={() => clickHandler(1) } />
@@ -27,4 +26,13 @@ class HeaderContainer extends React.Component {
 
 }
 
+const HeaderItem = ({ text, active, clickHandler }) => (
+  <li className={ active ? "active" : "" }>
+    <a onClick={() => clickHandler() }>
+      { text }
+    </a>
+  </li>
+);
+
 export default HeaderContainer;
+export { HeaderItem };

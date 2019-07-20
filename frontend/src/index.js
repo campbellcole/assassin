@@ -4,7 +4,9 @@ import ReactDOM from "react-dom";
 import RootContainer from "./js/components/RootContainer.jsx";
 import StandingsContainer from "./js/components/StandingsContainer.jsx";
 
-M.AutoInit();
+document.addEventListener('DOMContentLoaded', () => {
+  M.AutoInit();
+});
 
 function getJSON(url, then) {
   var req = new XMLHttpRequest();
@@ -28,7 +30,7 @@ function gotStandings(res) {
   var p = progbar.parentNode;
   p.removeChild(progbar);
   var stel = document.getElementById("standings");
-  ReactDOM.render(<StandingsContainer standings={ res } />, stel);
+  ReactDOM.render(<StandingsContainer standings={ res.standings } />, stel);
   stel.style.display = "block";
 }
 
