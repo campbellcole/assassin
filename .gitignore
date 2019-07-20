@@ -85,3 +85,4 @@ yarn-error.log*
 
 /temp
 /backend/public
+/backend/private
