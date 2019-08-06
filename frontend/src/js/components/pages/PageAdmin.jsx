@@ -2,7 +2,7 @@ import React from "react";
 
 var PageAdmin = (
   <div className="container">
-    <h4 className="center-align">This panel is not hidden in order provide transparency.</h4>
+    <h4 className="center-align">This panel is not hidden in order to provide transparency.</h4>
     <div className="row">
       <div className="col s5">
         <div id="users"></div>
