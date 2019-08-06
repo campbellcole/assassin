@@ -4,8 +4,9 @@ import ReactDOM from "react-dom";
 import PageHome from "./pages/PageHome.jsx";
 import PageRegister from "./pages/PageRegister.jsx";
 import PageStandings from "./pages/PageStandings.jsx";
+import PageAdmin from "./pages/PageAdmin.jsx";
 
-import { getStandings } from "./../../index.js";
+import { getStandings, populateAdminPanel } from "./../../index.js";
 
 class HomePage extends React.Component {
 
@@ -44,8 +45,22 @@ class StandingsPage extends React.Component {
 
 }
 
+class AdminPage extends React.Component {
+
+  constructor() {
+    super();
+    populateAdminPanel();
+  }
+
+  render() {
+    return PageAdmin;
+  }
+
+}
+
 export {
   HomePage,
   RegisterPage,
-  StandingsPage
+  StandingsPage,
+  AdminPage
 }

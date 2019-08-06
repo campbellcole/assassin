@@ -6,6 +6,7 @@ import logger from 'morgan';
 import Database from './bin/db';
 
 import indexRouter from './routes/index';
+import adminRouter from './routes/admin';
 import registerRouter from './routes/register';
 import gameRouter from './routes/game';
 
@@ -20,6 +21,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '../public')));
 
 app.use('/', indexRouter);
+app.use('/admin', adminRouter);
 app.use('/register', registerRouter);
 app.use('/game', gameRouter);
 

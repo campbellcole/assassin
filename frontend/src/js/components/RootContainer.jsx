@@ -1,15 +1,17 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-import css from '../../css/Root.css';
+import autoBind from "auto-bind";
 
-import { HomePage, RegisterPage, StandingsPage } from "./Pages.jsx"
+import css from "../../css/Root.css";
+
+import { HomePage, RegisterPage, StandingsPage, AdminPage } from "./Pages.jsx"
 
 import HeaderContainer from "./HeaderContainer.jsx";
 import SideNavContainer from "./SideNavContainer.jsx";
 import FooterContainer from "./FooterContainer.jsx";
 
-var pages = [ HomePage, RegisterPage, StandingsPage ];
+var pages = [ HomePage, RegisterPage, StandingsPage, AdminPage ];
 
 class RootContainer extends React.Component {
 
@@ -18,7 +20,7 @@ class RootContainer extends React.Component {
     this.state = {
       currentPage: 0
     }
-    this.loadPage = this.loadPage.bind(this);
+    autoBind.react(this);
   }
 
   loadPage(index) {

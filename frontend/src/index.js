@@ -4,7 +4,10 @@ import ReactDOM from "react-dom";
 import RootContainer from "./js/components/RootContainer.jsx";
 import StandingsContainer from "./js/components/StandingsContainer.jsx";
 
-document.addEventListener('DOMContentLoaded', () => {
+import UsersContainer from "./js/components/pages/admin/UsersContainer.jsx";
+import TeamsContainer from "./js/components/pages/admin/TeamsContainer.jsx";
+
+document.addEventListener("DOMContentLoaded", () => {
   M.AutoInit();
 });
 
@@ -30,10 +33,24 @@ function gotStandings(res) {
   var p = progbar.parentNode;
   p.removeChild(progbar);
   var stel = document.getElementById("standings");
-  ReactDOM.render(<StandingsContainer standings={ res.standings } />, stel);
+  ReactDOM.render(<StandingsContainer standings={ res } />, stel);
   stel.style.display = "block";
 }
 
+function populateAdminPanel() {
+  getJSON(window.location.href + "admin/users", (res) => gotUsers(res));
+  getJSON(window.location.href + "admin/teams", (res) => gotTeams(res));
+}
+
+function gotUsers(res) {
+  ReactDOM.render(<UsersContainer users={ res } />, document.getElementById("users"));
+}
+
+function gotTeams(res) {
+  ReactDOM.render(<TeamsContainer teams={ res } />, document.getElementById("teams"))
+}
+
 export {
-  getStandings
+  getStandings,
+  populateAdminPanel
 };

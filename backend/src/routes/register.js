@@ -6,8 +6,8 @@ import { db } from '../app';
 import { RET } from '../bin/db';
 
 router.post('/', [
-  check('username').isLength({ min: 3 }),
-  check('password').isLength({ min: 8 }),
+  check('username').isLength({ min: 3, max: 32 }),
+  check('password').isLength({ min: 8, max: 64 }),
   check('email').isEmail(),
   check('phone').isMobilePhone()
 ], (req, res) => {

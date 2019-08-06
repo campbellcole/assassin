@@ -18,6 +18,7 @@ class HeaderContainer extends React.Component {
             <HeaderItem text="Home" active={ currentPage == 0 ? true : false } clickHandler={() => clickHandler(0) } />
             <HeaderItem text="Register" active={ currentPage == 1 ? true : false } clickHandler={() => clickHandler(1) } />
             <HeaderItem text="Standings" active={ currentPage == 2 ? true : false } clickHandler={() => { clickHandler(2); } } />
+            <HeaderItem text="Admin Panel" active={ currentPage == 3 ? true : false } clickHandler={() => { clickHandler(3); } } />
           </ul>
         </div>
       </nav>

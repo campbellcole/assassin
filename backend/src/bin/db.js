@@ -2,6 +2,7 @@ import low from 'lowdb';
 import FileSync from 'lowdb/adapters/FileSync';
 
 import User from './struct/user';
+import autoBind from 'auto-bind';
 
 const RET = {
   OK: { code: 0, msg: "OK" },
@@ -40,6 +41,7 @@ class Database {
     var user = this.db.get('users')
            .find(['username', username])
            .value();
+    var dbres = this.userExists()
     if (undefined !== user) {
       this.db.get('users')
              .find(['username', username])
@@ -51,8 +53,13 @@ class Database {
     }
   }
 
+  userExists(username) {
+    if (undefined !== this.db.get('users').find(['username', username]).value()) return RET.OK;
+    else return RET.USER_NOT_FOUND;
+  }
+
   addUser(username, password, name, email, phone, verified) {
-    if (undefined !== this.db.get('users').find(['username', username]).value()) return RET.USER_ALREADY_EXISTS;
+    if (this.userExists(username) == RET.OK) return RET.USER_ALREADY_EXISTS;
     if (undefined !== this.db.get('users').find(['email', email]).value()) return RET.EMAIL_ALREADY_IN_USE;
     if (undefined !== this.db.get('users').find(['phone', phone]).value()) return RET.PHONE_ALREADY_IN_USE;
     var user = new User(username, password, name, email, phone, verified);
@@ -64,6 +71,10 @@ class Database {
 
   getGameData() {
     return this.db.get('game').value();
+  }
+
+  getUsers() {
+    return this.db.get('users').value();
   }
 
 }
