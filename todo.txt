@@ -1,0 +1,7 @@
+finish teamcontainer to display a single teams stats
+ensure clicking a team properly fills the teamcontainer
+work on database structure and add more properties to the users, teams, etc
+maybe DRY out the code a little?
+work on game timeline (gotta figure out the "official" rules first)
+add more features to the admin panel (game control basically)
+try to get the registration process complete soon to allow a long period for registration
