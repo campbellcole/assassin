@@ -29,9 +29,7 @@ function userToString(user) {
 }
 
 function userFromUsername(username, then) {
-  getJSON("admin/user", username, (res) => {
-    then(res);
-  });
+  getJSON("admin/user", username, then);
 }
 
 export {
