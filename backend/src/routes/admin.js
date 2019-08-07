@@ -27,8 +27,15 @@ router.get('/verify/:username', (req, res) => {
   var { username } = req.params;
   // doesn't really matter if they're already verified
   var dbres = db.verifyUser(username);
-  if (dbres != RET.OK) res.status(406).json({ errors: dbres });
-  res.status(200).end();
+  if (RET.OK !== dbres) res.status(406).json({ errors: dbres });
+  else res.status(200).end();
 });
+
+router.get('/user/:username', (req, res) => {
+  var { username } = req.params;
+  var dbres = db.getUser(username);
+  if (RET.USER_NOT_FOUND === dbres) res.status(406).json({ errors: dbres });
+  else res.send(dbres);
+})
 
 export default router;

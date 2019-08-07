@@ -1,12 +1,20 @@
 import React from "react";
 import autoBind from "auto-bind";
 
+import { sendVerifyUser, userToString } from "../../../utils.js";
+
 class UsersContainer extends React.Component {
 
   constructor(users) {
     super();
-    this.users = users.users;
+    this.state = {
+      users: users.users,
+      eList: []
+    }
     autoBind.react(this);
+  }
+
+  componentDidMount() {
     this.generateElements();
   }
 
@@ -14,40 +22,42 @@ class UsersContainer extends React.Component {
     return (
       <ul className="collection with-header">
         <li className="collection-header"><h4>Users</h4></li>
-        { this.eList }
+        { this.state.eList }
       </ul>
     );
   }
 
   generateElements() {
-    this.eList = [];
-    for (var user of this.users) {
-      this.eList.push(this.UserRow(user));
+    var teList = [];
+    for (var user of this.state.users) {
+      teList.push(this.UserRow(user));
     }
+    this.setState((state) => {
+      return { users: state.users, eList: teList }
+    });
   }
 
   verifyUser(username) {
-    var req = new XMLHttpRequest();
-    req.onreadystatechange = () => {
-      if (this.readyState == 4 && this.status == 200) {
-        for (var [index, value] of this.users.entries()) {
-          if (username === value.username) {
-            this.users[index].verified = true;
-          }
+    sendVerifyUser(username, () => {
+      for (var [index, value] of this.state.users.entries()) {
+        if (username === value.username) {
+          this.setState((state) => {
+            var us = state.users.slice(0);
+            us[index].verified = true;
+            return { users: us, eList: state.eList }
+          });
         }
-        this.generateElements();
       }
-    };
-    req.open("GET", "/admin/verify/" + username, true);
-    req.send();
+      this.generateElements();
+    });
   }
 
   UserRow(user) {
     return (
       <li className="collection-item" key={ user.username }>
-        { user.name }
+        { userToString(user) }
         { !user.verified &&
-          <a className="secondary-content" onClick={() => this.verifyUser(user.username)}>
+          <a className="secondary-content cursor-pointer" onClick={() => this.verifyUser(user.username)}>
             <i className="material-icons">check</i>
           </a>
         }

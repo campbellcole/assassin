@@ -11,6 +11,9 @@ var PageAdmin = (
         <div id="teams"></div>
       </div>
     </div>
+    <div className="row">
+      <div className="col s6 offset-s3" id="selected-team"></div>
+    </div>
   </div>
 );
 

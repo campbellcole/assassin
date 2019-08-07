@@ -9,6 +9,9 @@ class TeamsContainer extends React.Component {
   constructor(teams) {
     super();
     this.teams = teams.teams;
+    this.state = {
+      team: this.teams[0] // currently selected team
+    }
     autoBind.react(this);
     this.generateElements();
   }
@@ -30,15 +33,15 @@ class TeamsContainer extends React.Component {
   }
 
   displayTeam(team) {
-    //ReactDOM.render(<TeamContainer team={ team }/>, document.getElementById("selected-team"));
-    console.log(team);
+    this.setState({ team: team });
+    ReactDOM.render(<TeamContainer team={ team }/>, document.getElementById("selected-team"));
   }
 
   TeamRow(team) {
     return (
       <li className="collection-item" key={ team.name }>
         { team.name }
-        <a className="secondary-content" onClick={() => this.displayTeam(team)}>
+        <a className="secondary-content cursor-pointer" onClick={() => this.displayTeam(team)}>
           <i className="material-icons">more</i>
         </a>
       </li>
