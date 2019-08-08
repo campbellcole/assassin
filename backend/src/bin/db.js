@@ -23,7 +23,7 @@ class Database {
   getDefaults() {
     return {
       users: [
-        new User('admin', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8', 'test name', 'email', 'phone', true)
+        new User('admin', '$2b$10$gBUmQdmfX.xJIjhmGTzrn.arOPJtss1CT.I2CvGidA0zbX1m6f/nS', 'test name', 'email', 'phone', true)
       ],
       game: {
         in_progress: false,

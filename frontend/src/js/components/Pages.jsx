@@ -3,6 +3,8 @@ import ReactDOM from "react-dom";
 
 import PageHome from "./pages/PageHome.jsx";
 import PageRegister from "./pages/PageRegister.jsx";
+import PageLogin from "./pages/PageLogin.jsx";
+import PageDashboard from "./pages/PageDashboard.jsx";
 import PageStandings from "./pages/PageStandings.jsx";
 import PageAdmin from "./pages/PageAdmin.jsx";
 
@@ -28,6 +30,30 @@ class RegisterPage extends React.Component {
 
   render() {
     return PageRegister;
+  }
+
+}
+
+class LoginPage extends React.Component {
+
+  constructor() {
+    super();
+  }
+
+  render() {
+    return PageLogin;
+  }
+
+}
+
+class DashboardPage extends React.Component {
+
+  constructor() {
+    super();
+  }
+
+  render() {
+    return PageDashboard;
   }
 
 }
@@ -61,6 +87,8 @@ class AdminPage extends React.Component {
 export {
   HomePage,
   RegisterPage,
+  LoginPage,
+  DashboardPage,
   StandingsPage,
   AdminPage
 }

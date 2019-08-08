@@ -1,6 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
+import { logout } from "../utils.js";
+
 class HeaderContainer extends React.Component {
 
   constructor() {
@@ -8,7 +10,7 @@ class HeaderContainer extends React.Component {
   }
 
   render() {
-    const { currentPage, clickHandler } = this.props;
+    const { currentPage, loggedIn, clickHandler } = this.props;
     return (
       <nav className="grey darken-3">
         <div id="nav-wrapper">
@@ -16,9 +18,20 @@ class HeaderContainer extends React.Component {
           <a href="#" data-target="slide-out" className="sidenav-trigger"><i className="material-icons">menu</i></a>
           <ul id="nav-mobile" className="right hide-on-med-and-down">
             <HeaderItem text="Home" active={ currentPage == 0 ? true : false } clickHandler={() => clickHandler(0) } />
-            <HeaderItem text="Register" active={ currentPage == 1 ? true : false } clickHandler={() => clickHandler(1) } />
-            <HeaderItem text="Standings" active={ currentPage == 2 ? true : false } clickHandler={() => { clickHandler(2); } } />
-            <HeaderItem text="Admin Panel" active={ currentPage == 3 ? true : false } clickHandler={() => { clickHandler(3); } } />
+            { !loggedIn &&
+              <HeaderItem text="Register" active={ currentPage == 1 ? true : false } clickHandler={() => clickHandler(1) } />
+            }
+            { !loggedIn &&
+              <HeaderItem text="Log In" active={ currentPage == 2 ? true : false } clickHandler={() => clickHandler(2) } />
+            }
+            { loggedIn &&
+              <HeaderItem text="Logout" active={ false } clickHandler={() => logout() } />
+            }
+            { loggedIn &&
+              <HeaderItem text="Dashboard" active={ currentPage == 3 ? true : false } clickHandler={() => clickHandler(3) } />
+            }
+            <HeaderItem text="Standings" active={ currentPage == 4 ? true : false } clickHandler={() => { clickHandler(4); } } />
+            <HeaderItem text="Admin Panel" active={ currentPage == 5 ? true : false } clickHandler={() => { clickHandler(5); } } />
           </ul>
         </div>
       </nav>

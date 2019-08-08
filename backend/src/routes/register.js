@@ -1,6 +1,7 @@
 import express from 'express';
 var router = express.Router();
 import { check, validationResult } from 'express-validator';
+import bcrypt from 'bcrypt';
 
 import { db } from '../app';
 import { RET } from '../bin/db';
@@ -14,7 +15,8 @@ router.post('/', [
   const err = validationResult(req);
   if (!err.isEmpty()) return res.status(422).json({ errors: err.array() });
   const { username, password, name, email, phone, registered } = req.body;
-  var dbres = db.addUser(username, password, name, email, phone, false);
+  var bpassword = bcrypt.hashSync(password, 10);
+  var dbres = db.addUser(username, bpassword, name, email, phone, false);
   if (RET.OK != dbres) return res.status(422).json({ errors: [ dbres ]});
   res.send('registration submitted successfully. once confirmed, you will receive an email.');
 });

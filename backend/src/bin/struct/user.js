@@ -1,8 +1,9 @@
 /*
 
 {
+id: string
 username: string,
-password: sha256(string),
+password: bcrypt(string),
 name: string,
 email: string,
 phone: string,
@@ -10,6 +11,8 @@ verified: bool
 }
 
 */
+
+import bcrypt from 'bcrypt';
 
 class User {
 
@@ -20,6 +23,10 @@ class User {
     this.email = email;
     this.phone = phone;
     this.verified = verified;
+  }
+
+  validPassword(password, then) {
+    bcrypt.compare(password, this.password, (err, res) => then(err, res));
   }
 
 }

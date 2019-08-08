@@ -1,4 +1,3 @@
-
 function getJSON(command, args, then) {
   sendRequest(command, args, (req) => {
     then(JSON.parse(req.responseText));
@@ -32,10 +31,15 @@ function userFromUsername(username, then) {
   getJSON("admin/user", username, then);
 }
 
+function logout() {
+  sendRequest("login/logout", "", () => { window.location = window.location });
+}
+
 export {
   getJSON,
   sendRequest,
   userToString,
   userFromUsername,
+  logout,
   sendVerifyUser
 }
