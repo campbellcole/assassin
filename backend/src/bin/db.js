@@ -52,7 +52,7 @@ class Database {
     var user = this.getUser(username);
     if (RET.USER_NOT_FOUND !== user) {
       this.db.get('users')
-             .find(['usernane', username])
+             .find(['username', username])
              .set('verified', false)
              .write();
       return RET.OK

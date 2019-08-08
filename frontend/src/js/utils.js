@@ -25,9 +25,9 @@ function sendDeverifyUser(username, then) {
 
 function userToString(user) {
   var s = "";
+  if (!user.verified) s += "* ";
   s += user.username;
   s += " (" + user.name +") ";
-  if (!user.verified) s += "*";
   return s;
 }
 
@@ -45,5 +45,6 @@ export {
   userToString,
   userFromUsername,
   logout,
-  sendVerifyUser
+  sendVerifyUser,
+  sendDeverifyUser
 }

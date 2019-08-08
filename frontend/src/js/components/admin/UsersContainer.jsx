@@ -1,7 +1,7 @@
 import React from "react";
 import autoBind from "auto-bind";
 
-import { sendVerifyUser, userToString } from "../../utils.js";
+import { sendVerifyUser, sendDeverifyUser, userToString } from "../../utils.js";
 
 class UsersContainer extends React.Component {
 
@@ -53,16 +53,32 @@ class UsersContainer extends React.Component {
   }
 
   deverifyUser(username) {
-    // TODO: implement
+    sendDeverifyUser(username, () => {
+      for (var [index, value] of this.state.users.entries()) {
+        if (username === value.username) {
+          this.setState((state) => {
+            var us = state.users.slice(0);
+            us[index].verified = false;
+            return { users: us, eList: state.eList }
+          });
+        }
+      }
+      this.generateElements();
+    });
   }
 
   UserRow(user) {
     return (
       <li className="collection-item" key={ user.username }>
         { userToString(user) }
+        { user.verified &&
+          <a className="secondary-content cursor-pointer" onClick={() => this.deverifyUser(user.username)}>
+            <i className="material-icons red-text">clear</i>
+          </a>
+        }
         { !user.verified &&
           <a className="secondary-content cursor-pointer" onClick={() => this.verifyUser(user.username)}>
-            <i className="material-icons">check</i>
+            <i className="material-icons green-text">check</i>
           </a>
         }
       </li>

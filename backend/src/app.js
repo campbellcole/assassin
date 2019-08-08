@@ -25,7 +25,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(bodyParser.urlencoded({ extended: true }));
 var sec = 'abcdef'; // change this later
 app.use(cookieParser(sec));
-app.use(session({ secret: sec, resave: false }));
+app.use(session({ secret: sec, resave: false, saveUninitialized: true }));
 app.use(passport.initialize());
 app.use(passport.session());
 
