@@ -39,15 +39,24 @@ class Database {
 
   verifyUser(username) {
     var user = this.getUser(username);
-    if (undefined !== user) {
+    if (RET.USER_NOT_FOUND !== user) {
       this.db.get('users')
              .find(['username', username])
              .set('verified', true)
              .write();
       return RET.OK;
-    } else {
-      return RET.USER_NOT_FOUND;
-    }
+    } else return RET.USER_NOT_FOUND;
+  }
+
+  deverifyUser(username) {
+    var user = this.getUser(username);
+    if (RET.USER_NOT_FOUND !== user) {
+      this.db.get('users')
+             .find(['usernane', username])
+             .set('verified', false)
+             .write();
+      return RET.OK
+    } else return RET.USER_NOT_FOUND;
   }
 
   userExists(username) {

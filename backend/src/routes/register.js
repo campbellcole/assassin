@@ -18,7 +18,7 @@ router.post('/', [
   var bpassword = bcrypt.hashSync(password, 10);
   var dbres = db.addUser(username, bpassword, name, email, phone, false);
   if (RET.OK != dbres) return res.status(422).json({ errors: [ dbres ]});
-  res.send('registration submitted successfully. once confirmed, you will receive an email.');
+  return res.send('registration submitted successfully. once confirmed, you will receive an email.');
 });
 
 export default router;

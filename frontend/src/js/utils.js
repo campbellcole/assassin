@@ -19,6 +19,10 @@ function sendVerifyUser(username, then) {
   sendRequest("admin/verify", username, then);
 }
 
+function sendDeverifyUser(username, then) {
+  sendRequest("admin/deverify", username, then);
+}
+
 function userToString(user) {
   var s = "";
   s += user.username;

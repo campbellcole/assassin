@@ -14,7 +14,7 @@ router.get('/lstat', (req, res) => {
 
 router.get('/logout', (req, res) => {
   req.logout();
-  res.send();
+  return res.send();
 });
 
 export default router;

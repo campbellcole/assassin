@@ -52,6 +52,10 @@ class UsersContainer extends React.Component {
     });
   }
 
+  deverifyUser(username) {
+    // TODO: implement
+  }
+
   UserRow(user) {
     return (
       <li className="collection-item" key={ user.username }>
