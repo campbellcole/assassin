@@ -27,17 +27,22 @@ class RootContainer extends React.Component {
   }
 
   componentDidMount() {
-    this.loadPage(0);
-  }
-
-  loadPage(index) {
     getJSON("login/lstat", "", (res) => {
       this.setState((state) => {
         return {
-          currentPage: index,
+          currentPage: state.index,
           loggedIn: res.loggedIn
         }
       })
+    });
+  }
+
+  loadPage(index) {
+    this.setState((state) => {
+      return {
+        currentPage: index,
+        loggedIn: res.loggedIn
+      }
     });
   }
 
