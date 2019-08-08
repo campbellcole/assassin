@@ -6,3 +6,4 @@ work on game timeline (gotta figure out the "official" rules first)
 add more features to the admin panel (game control basically)
 try to get the registration process complete soon to allow a long period for registration
 implement passport and generate a (for now) untrusted ssl cert to enable https (mostly done)
+refactor pages setup

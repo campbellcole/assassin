@@ -1,7 +1,7 @@
 import React from "react";
 import autoBind from "auto-bind";
 
-import { sendVerifyUser, userToString } from "../../../utils.js";
+import { sendVerifyUser, userToString } from "../../utils.js";
 
 class UsersContainer extends React.Component {
 

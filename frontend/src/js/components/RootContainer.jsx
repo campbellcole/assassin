@@ -7,13 +7,11 @@ import { getJSON } from "../utils.js";
 
 import css from "../../css/Root.css";
 
-import { HomePage, RegisterPage, LoginPage, DashboardPage, StandingsPage, AdminPage } from "./Pages.jsx"
+import { pages } from "./Pages.jsx"
 
 import HeaderContainer from "./HeaderContainer.jsx";
 import SideNavContainer from "./SideNavContainer.jsx";
 import FooterContainer from "./FooterContainer.jsx";
-
-var pages = [ HomePage, RegisterPage, LoginPage, DashboardPage, StandingsPage, AdminPage ];
 
 class RootContainer extends React.Component {
 
@@ -41,7 +39,7 @@ class RootContainer extends React.Component {
     this.setState((state) => {
       return {
         currentPage: index,
-        loggedIn: res.loggedIn
+        loggedIn: state.loggedIn
       }
     });
   }
