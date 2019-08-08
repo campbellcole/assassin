@@ -30,7 +30,7 @@ class RootContainer extends React.Component {
     getJSON("login/lstat", "", (res) => {
       this.setState((state) => {
         return {
-          currentPage: state.index,
+          currentPage: state.currentPage,
           loggedIn: res.loggedIn
         }
       })
