@@ -25,7 +25,7 @@ class SideNavContainer extends React.Component {
             <SideNavItem text="Dashboard" clickHandler={ () => clickHandler(3) } />
           }
           { status.loggedIn &&
-            <SideNavItem text="Logout" clickHandler={ () => clickHandler(3) } />
+            <SideNavItem text="Logout" clickHandler={ () => logout() } />
           }
           <SideNavItem text="Standings" clickHandler={ () => clickHandler(4) } />
           { 1 === status.level.code &&
