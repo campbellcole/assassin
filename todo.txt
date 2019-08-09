@@ -1,9 +1,12 @@
 finish teamcontainer to display a single teams stats+
-ensure clicking a team properly fills the teamcontainer+
+ensure clicking a team properly fills the teamcontainer (done)
 work on database structure and add more properties to the users, teams, etc
 maybe DRY out the code a little?+
 work on game timeline (gotta figure out the "official" rules first)
 add more features to the admin panel (game control basically)
 try to get the registration process complete soon to allow a long period for registration
 implement passport and generate a (for now) untrusted ssl cert to enable https (mostly done)
-refactor pages setup
+  switch from passport-local to passport-digest for added security
+  add a session store because constantly logging in to test is getting really annoying
+refactor pages setup (done)
+add as much mobile compatibility as possible

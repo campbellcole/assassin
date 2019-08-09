@@ -7,8 +7,9 @@ function getJSON(command, args, then) {
 function sendRequest(command, args, then) {
   var req = new XMLHttpRequest();
   req.onreadystatechange = () => {
-    if (4 === req.readyState && 200 === req.status) {
-      then(req);
+    if (4 === req.readyState) {
+      if (200 === req.status) then(req);
+      else then(req.status);
     }
   };
   req.open("GET", window.location.href + command + "/" + args, true);

@@ -2,10 +2,16 @@ import User from './struct/user';
 import { db } from '../app';
 import { RET } from '../bin/db';
 
-function isLocal(req) {
-  return (req.connection.remoteAddress === '127.0.0.1' ||
-          req.connection.remoteAddress === '::ffff:127.0.0.1' ||
-          req.connection.remoteAddress === '::1');
+const LVL = {
+  NONE: { code: -1 },
+  USER: { code: 0 },
+  ADMIN: { code : 1 }
+}
+
+function authLevel(req) {
+  if (undefined === req.user) return LVL.NONE;
+  if ("admin" === req.user.username) return LVL.ADMIN;
+  else return LVL.USER;
 }
 
 function deserializeUsers() {
@@ -40,7 +46,8 @@ function deserializeUser(username) {
 }
 
 export {
-  isLocal,
+  authLevel,
+  LVL,
   deserializeUsers,
   deserializeUser
 }

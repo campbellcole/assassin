@@ -3,13 +3,19 @@ var router = express.Router();
 
 import passport from '../bin/passport-impl';
 
+import { authLevel } from '../bin/utils';
+
 router.post('/', passport.authenticate('local', {
   successRedirect: '/',
-  fauilureRedirect: '/test'
+  failureRedirect: '/'
 }));
 
 router.get('/lstat', (req, res) => {
-  return res.send({ loggedIn: req.isAuthenticated() });
+  return res.send({
+    username: undefined === req.user ? undefined : req.user.username,
+    level: authLevel(req),
+    loggedIn: req.isAuthenticated()
+  });
 });
 
 router.get('/logout', (req, res) => {

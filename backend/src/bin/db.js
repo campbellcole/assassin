@@ -5,6 +5,7 @@ import User from './struct/user';
 import autoBind from 'auto-bind';
 
 const RET = {
+  UNAUTHORIZED: { code: -1, msg: "unauthorized" },
   OK: { code: 0, msg: "OK" },
   USER_NOT_FOUND: { code: 1, msg: "user not found" },
   USER_ALREADY_EXISTS: { code: 2, msg: "user already exists" },
@@ -22,7 +23,7 @@ class Database {
 
   getDefaults() {
     return {
-      users: [
+      users: [            // default password is "password"
         new User('admin', '$2b$10$gBUmQdmfX.xJIjhmGTzrn.arOPJtss1CT.I2CvGidA0zbX1m6f/nS', 'test name', 'email', 'phone', true)
       ],
       game: {

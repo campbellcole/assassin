@@ -194,6 +194,7 @@ class AdminPage extends React.Component {
       ReactDOM.render(<UsersContainer users={ res } />, document.getElementById("users"));
     });
     getJSON("admin/teams", "", (res) => {
+      if (401 === res) alert("no permission");
       ReactDOM.render(<TeamsContainer teams={ res } />, document.getElementById("teams"));
     });
   }
@@ -201,7 +202,7 @@ class AdminPage extends React.Component {
   render() {
     return (
       <div className="container">
-        <h4 className="center-align">This panel is not hidden in order to provide transparency.</h4>
+      <h3 className="center-align">Moderation Panel</h3>
         <div className="row">
           <div className="col s5">
             <div id="users"></div>

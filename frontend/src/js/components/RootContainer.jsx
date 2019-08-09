@@ -19,7 +19,11 @@ class RootContainer extends React.Component {
     super();
     this.state = {
       currentPage: 0,
-      loggedIn: false
+      status: {
+        username: undefined,
+        level: -1,
+        loggedIn: false
+      }
     }
     autoBind.react(this);
   }
@@ -29,7 +33,7 @@ class RootContainer extends React.Component {
       this.setState((state) => {
         return {
           currentPage: state.currentPage,
-          loggedIn: res.loggedIn
+          status: res
         }
       })
     });
@@ -39,7 +43,7 @@ class RootContainer extends React.Component {
     this.setState((state) => {
       return {
         currentPage: index,
-        loggedIn: state.loggedIn
+        status: state.status
       }
     });
   }
@@ -48,8 +52,8 @@ class RootContainer extends React.Component {
     const CurrentPage = pages[this.state.currentPage];
     return (
       <div className="content">
-        <HeaderContainer currentPage={ this.state.currentPage } loggedIn={ this.state.loggedIn } clickHandler={ (ind) => this.loadPage(ind) } />
-        <SideNavContainer clickHandler={ (ind) => this.loadPage(ind) } />
+        <HeaderContainer currentPage={ this.state.currentPage } status={ this.state.status } clickHandler={ (ind) => this.loadPage(ind) } />
+        <SideNavContainer status={ this.state.status } clickHandler={ (ind) => this.loadPage(ind) } />
         <div id="page">
           <CurrentPage />
         </div>
