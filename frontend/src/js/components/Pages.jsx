@@ -204,15 +204,15 @@ class AdminPage extends React.Component {
       <div className="container">
       <h3 className="center-align">Moderation Panel</h3>
         <div className="row">
-          <div className="col s5">
+          <div className="col s6 l5">
             <div id="users"></div>
           </div>
-          <div className="col s5 offset-s2">
+          <div className="col s6 l5 offset-l2">
             <div id="teams"></div>
           </div>
         </div>
         <div className="row">
-          <div className="col s6 offset-s3" id="selected-team"></div>
+          <div className="col s10 offset-s1 l6 offset-l3" id="selected-team"></div>
         </div>
       </div>
     );
