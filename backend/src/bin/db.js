@@ -4,13 +4,15 @@ import FileSync from 'lowdb/adapters/FileSync';
 import User from './struct/user';
 import autoBind from 'auto-bind';
 
+import { LVL } from './utils';
+
 const RET = {
-  UNAUTHORIZED: { code: -1, msg: "unauthorized" },
-  OK: { code: 0, msg: "OK" },
-  USER_NOT_FOUND: { code: 1, msg: "user not found" },
-  USER_ALREADY_EXISTS: { code: 2, msg: "user already exists" },
-  EMAIL_ALREADY_IN_USE: { code: 3, msg: "email address already in use" },
-  PHONE_ALREADY_IN_USE: { code: 4, msg: "phone number already in use" }
+  UNKNOWN: { code: -1, msg: 'unauthorized' },
+  OK: { code: 0, msg: 'OK' },
+  USER_NOT_FOUND: { code: 1, msg: 'user not found' },
+  USER_ALREADY_EXISTS: { code: 2, msg: 'user already exists' },
+  EMAIL_ALREADY_IN_USE: { code: 3, msg: 'email address already in use' },
+  PHONE_ALREADY_IN_USE: { code: 4, msg: 'phone number already in use' }
 }
 
 class Database {
@@ -23,8 +25,8 @@ class Database {
 
   getDefaults() {
     return {
-      users: [            // default password is "password"
-        new User('admin', '$2b$10$gBUmQdmfX.xJIjhmGTzrn.arOPJtss1CT.I2CvGidA0zbX1m6f/nS', 'test name', 'email', 'phone', true)
+      users: [               // default password is 'password'
+        new User('admin', 1, '$2b$10$gBUmQdmfX.xJIjhmGTzrn.arOPJtss1CT.I2CvGidA0zbX1m6f/nS', 'test name', 'email', 'phone', true)
       ],
       game: {
         in_progress: false,
@@ -39,47 +41,30 @@ class Database {
   }
 
   verifyUser(username) {
-    var user = this.getUser(username);
-    if (RET.USER_NOT_FOUND !== user) {
-      this.db.get('users')
-             .find(['username', username])
-             .set('verified', true)
-             .write();
-      return RET.OK;
-    } else return RET.USER_NOT_FOUND;
+    return this._setUserProperty(username, 'verified', true);
   }
 
   deverifyUser(username) {
-    var user = this.getUser(username);
-    if (RET.USER_NOT_FOUND !== user) {
-      this.db.get('users')
-             .find(['username', username])
-             .set('verified', false)
-             .write();
-      return RET.OK
-    } else return RET.USER_NOT_FOUND;
+    return this._setUserProperty(username, 'verified', false);
   }
 
-  userExists(username) {
-    if (undefined !== this._getUser(username)) return RET.OK;
-    else return RET.USER_NOT_FOUND;
+  promoteUser(username) {
+    return this._setUserProperty(username, 'perm', 1);
+  }
+
+  demoteUser(username) {
+    return this._setUserProperty(username, 'perm', 0);
   }
 
   getUser(username) {
-    var u = this._getUser(username);
-    if (undefined === u) return RET.USER_NOT_FOUND;
-    else return u;
-  }
-
-  _getUser(username) {
-    return this.db.get('users').find(['username', username]).value();
+    return this._getUserSanitary(username);
   }
 
   addUser(username, password, name, email, phone, verified) {
-    if (RET.OK === this.userExists(username)) return RET.USER_ALREADY_EXISTS;
-    if (undefined !== this.db.get('users').find(['email', email]).value()) return RET.EMAIL_ALREADY_IN_USE;
-    if (undefined !== this.db.get('users').find(['phone', phone]).value()) return RET.PHONE_ALREADY_IN_USE;
-    var user = new User(username, password, name, email, phone, verified);
+    if (this._keyExists('users', 'username', user)) return RET.USER_ALREADY_EXISTS;
+    if (this._keyExists('users', 'email', email)) return RET.EMAIL_ALREADY_IN_USE;
+    if (this._keyExists('users', 'phone', phone)) return RET.PHONE_ALREADY_IN_USE;
+    var user = new User(username, 0, password, name, email, phone, verified);
     this.db.get('users')
            .push(user)
            .write();
@@ -92,6 +77,27 @@ class Database {
 
   getUsers() {
     return this.db.get('users').value();
+  }
+
+  _setUserProperty(username, prop, val) {
+    var user = this._getUser(username);
+    if (undefined === user.value()) return RET.USER_NOT_FOUND;
+    user.set(prop, val).write();
+    return RET.OK;
+  }
+
+  _getUserSanitary(username) {
+    var u = this._getUser(username).value();
+    if (undefined === u) return RET.USER_NOT_FOUND;
+    else return u;
+  }
+
+  _getUser(username) {
+    return this.db.get('users').find(['username', username]);
+  }
+
+  _keyExists(set, key, val) {
+    return undefined === this.db.get(set).find([key, val]).value();
   }
 
 }

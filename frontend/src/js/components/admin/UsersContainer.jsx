@@ -67,10 +67,28 @@ class UsersContainer extends React.Component {
     });
   }
 
+  promoteUser(username) {
+    // TODO: implement
+  }
+
+  demoteUser(username) {
+    // TODO: implement
+  }
+
   UserRow(user) {
     return (
       <li className="collection-item" key={ user.username }>
         { userToString(user) }
+        { user.perm === 0 &&
+          <a className="secondary-content cursor-pointer" onClick={() => this.promoteUser(user.username)}>
+            <i className="material-icons green-text">thumbs_up</i>
+          </a>
+        }
+        { user.perm === 1 &&
+          <a className="secondary-content cursor-pointer" onClick={() => this.demoteUser(user.username)}>
+            <i className="material-icons green-text">thumbs_down</i>
+          </a>
+        }
         { user.verified &&
           <a className="secondary-content cursor-pointer" onClick={() => this.deverifyUser(user.username)}>
             <i className="material-icons red-text">clear</i>

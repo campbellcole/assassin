@@ -1,8 +1,8 @@
 /*
 
 {
-id: string
 username: string,
+perm: int
 password: bcrypt(string),
 name: string,
 email: string,
@@ -16,8 +16,9 @@ import bcrypt from 'bcrypt';
 
 class User {
 
-  constructor(username, password, name, email, phone, verified) {
+  constructor(username, perm, password, name, email, phone, verified) {
     this.username = username;
+    this.perm = perm
     this.password = password;
     this.name = name;
     this.email = email;

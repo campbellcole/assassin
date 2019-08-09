@@ -19,6 +19,43 @@ router.get('/teams', (req, res) => {
   return res.send(db.getGameData().teams);
 });
 
+router.get(':command/:username', (req, res) => {
+  var { command, username } = req.params;
+  var dbres = RET.UNKNOWN;
+  var err = 'unauthorized';
+  switch(command) {
+    case 'verify':
+      if (LVL.ADMIT !== authLevel(req)) return res.status(401).send();
+      dbres = db.verifyUser(username);
+      break;
+    case 'deverify':
+      if (LVL.ADMIT !== authLevel(req)) return res.status(401).send();
+      dbres = db.deverifyUser(username);
+      break;
+    case 'promote':
+      if (LVL.ADMIT !== authLevel(req)) return res.status(401).send();
+      dbres = db.promoteUser(username);
+      break;
+    case 'demote':
+      if (LVL.ADMIT !== authLevel(req)) return res.status(401).send();
+      dbres = db.demoteUser(username);
+      break;
+    case 'user':
+      if (LVL.USER === al) {
+        if (username !== req.user.username) return res.status(401).send();
+      }
+      if (LVL.NONE === al) return res.status(401).send();
+      dbres = db.getUser(username);
+      if (RET.USER_NOT_FOUND === dbres) return res.status(406).json({ errors: dbres });
+      return res.send(dbres);
+    default:
+      err = 'unknown command';
+      break;
+  }
+  if (err || RET.UNKNOWN) return res.status(406).json({ errors: err });
+  else return res.status(200).end();
+});
+/*
 router.get('/verify/:username', (req, res) => {
   if (LVL.ADMIN !== authLevel(req)) return res.status(401).send();
   var { username } = req.params;
@@ -35,6 +72,19 @@ router.get('/deverify/:username', (req, res) => {
   else return res.status(200).end();
 });
 
+router.get('/promote/:username', (req, res) => {
+  if (LVL.ADMIN !== authLevel(req)) return res.status(401).send)();
+  var { username } = req.params;
+  var dbres = db.promoteUser(username);
+  if (RET.OK != dbres) return res.status(406).json({ errors: dbres });
+  else return res.status(200).end();
+});
+
+router.get('/demote/:username', (req, res) => {
+  if (LVL.ADMIN !== authLevel(req)) return res.status(401).send();
+  var { username } =
+})
+
 router.get('/user/:username', (req, res) => {
   var { username } = req.params;
   var al = authLevel(req);
@@ -46,5 +96,5 @@ router.get('/user/:username', (req, res) => {
   if (RET.USER_NOT_FOUND === dbres) return res.status(406).json({ errors: dbres });
   else return res.send(dbres);
 });
-
+*/
 export default router;

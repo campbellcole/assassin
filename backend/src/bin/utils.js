@@ -8,10 +8,15 @@ const LVL = {
   ADMIN: { code : 1 }
 }
 
+function permFromCode(code) {
+  return Object.keys(LVL).find((elem) => {
+    return code === elem;
+  });
+}
+
 function authLevel(req) {
   if (undefined === req.user) return LVL.NONE;
-  if ("admin" === req.user.username) return LVL.ADMIN;
-  else return LVL.USER;
+  else return permFromCode(req.user.perm);
 }
 
 function deserializeUsers() {
@@ -20,6 +25,7 @@ function deserializeUsers() {
   for (var su of serUsers) {
     var user = new User(
       su.username,
+      su.perm,
       su.password,
       su.name,
       su.email,
@@ -36,6 +42,7 @@ function deserializeUser(username) {
   if (RET.USER_NOT_FOUND === su) return su;
   var user = new User(
     su.username,
+    su.perm,
     su.password,
     su.name,
     su.email,
@@ -46,8 +53,9 @@ function deserializeUser(username) {
 }
 
 export {
-  authLevel,
   LVL,
+  permFromCode,
+  authLevel,
   deserializeUsers,
   deserializeUser
 }
