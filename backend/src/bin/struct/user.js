@@ -18,7 +18,7 @@ class User {
 
   constructor(username, perm, password, name, email, phone, verified) {
     this.username = username;
-    this.perm = perm
+    this.perm = perm;
     this.password = password;
     this.name = name;
     this.email = email;

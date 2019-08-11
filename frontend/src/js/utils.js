@@ -24,6 +24,14 @@ function sendDeverifyUser(username, then) {
   sendRequest("admin/deverify", username, then);
 }
 
+function sendPromoteUser(username, then) {
+  sendRequest("admin/promote", username, then);
+}
+
+function sendDemoteUser(username, then) {
+  sendRequest("admin/demote", username, then);
+}
+
 function userToString(user) {
   var s = "";
   if (!user.verified) s += "* ";
@@ -47,5 +55,7 @@ export {
   userFromUsername,
   logout,
   sendVerifyUser,
-  sendDeverifyUser
+  sendDeverifyUser,
+  sendPromoteUser,
+  sendDemoteUser
 }

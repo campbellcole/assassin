@@ -31,7 +31,7 @@ class HeaderContainer extends React.Component {
               <HeaderItem text="Logout" active={ false } clickHandler={ () => logout() } />
             }
             <HeaderItem text="Standings" active={ currentPage == 4 ? true : false } clickHandler={ () => clickHandler(4) } />
-            { 1 === status.level.code &&
+            { 1 === status.level &&
               <HeaderItem text="Moderation Panel" active={ currentPage == 5 ? true : false } clickHandler={ () => clickHandler(5) } />
             }
           </ul>

@@ -11,6 +11,7 @@ class SideNavContainer extends React.Component {
 
   render() {
     const { clickHandler, status } = this.props;
+    console.log(status);
     return (
       <div>
         <ul id="slide-out" className="sidenav">
@@ -24,12 +25,12 @@ class SideNavContainer extends React.Component {
           { status.loggedIn &&
             <SideNavItem text="Dashboard" clickHandler={ () => clickHandler(3) } />
           }
+          <SideNavItem text="Standings" clickHandler={ () => clickHandler(4) } />
+          { 1 === status.level &&
+            <SideNavItem text="Moderation Panel" clickHandler={ () => clickHandler(5) } />
+          }
           { status.loggedIn &&
             <SideNavItem text="Logout" clickHandler={ () => logout() } />
-          }
-          <SideNavItem text="Standings" clickHandler={ () => clickHandler(4) } />
-          { 1 === status.level.code &&
-            <SideNavItem text="Moderation Panel" clickHandler={ () => clickHandler(5) } />
           }
         </ul>
       </div>

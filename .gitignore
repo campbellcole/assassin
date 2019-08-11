@@ -86,3 +86,5 @@ yarn-error.log*
 /temp
 /backend/public
 /backend/private
+backend/src/config.js
+backend/sessions/

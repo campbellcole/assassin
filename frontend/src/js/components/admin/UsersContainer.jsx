@@ -1,7 +1,7 @@
 import React from "react";
 import autoBind from "auto-bind";
 
-import { sendVerifyUser, sendDeverifyUser, userToString } from "../../utils.js";
+import { sendVerifyUser, sendDeverifyUser, sendPromoteUser, sendDemoteUser, userToString } from "../../utils.js";
 
 class UsersContainer extends React.Component {
 
@@ -23,6 +23,12 @@ class UsersContainer extends React.Component {
       <ul className="collection with-header">
         <li className="collection-header"><h4>Users</h4></li>
         { this.state.eList }
+        <li className="collection-item" key="create">
+          <b>Create User</b>
+          <a className="secondary-content cursor-pointer" onClick={ () => this.openCreateUser() }>
+            <i className="material-icons grey-text darken-3">add_circle</i>
+          </a>
+        </li>
       </ul>
     );
   }
@@ -39,66 +45,63 @@ class UsersContainer extends React.Component {
 
   verifyUser(username) {
     sendVerifyUser(username, () => {
-      for (var [index, value] of this.state.users.entries()) {
-        if (username === value.username) {
-          this.setState((state) => {
-            var us = state.users.slice(0);
-            us[index].verified = true;
-            return { users: us, eList: state.eList }
-          });
-        }
-      }
-      this.generateElements();
+      this._setUserValue(username, 'verified', true);
     });
   }
 
   deverifyUser(username) {
     sendDeverifyUser(username, () => {
-      for (var [index, value] of this.state.users.entries()) {
-        if (username === value.username) {
-          this.setState((state) => {
-            var us = state.users.slice(0);
-            us[index].verified = false;
-            return { users: us, eList: state.eList }
-          });
-        }
-      }
-      this.generateElements();
+      this._setUserValue(username, 'verified', false);
     });
   }
 
   promoteUser(username) {
-    // TODO: implement
+    sendPromoteUser(username, () => {
+      this._setUserValue(username, 'perm', 1);
+    });
   }
 
   demoteUser(username) {
-    // TODO: implement
+    sendDemoteUser(username, () => {
+      this._setUserValue(username, 'perm', 0);
+    });
+  }
+
+  openCreateUser() {
+    alert("not yet implemented");
+  }
+
+  _setUserValue(username, key, value) {
+    for (var [index, value] of this.state.users.entries()) {
+      if (username === value.username) {
+        this.setState((state) => {
+          var us = state.users.slice(0);
+          us[index][key] = value;
+          return { users: us, eList: state.eList }
+        });
+      }
+    }
+    this.generateElements();
   }
 
   UserRow(user) {
     return (
       <li className="collection-item" key={ user.username }>
         { userToString(user) }
-        { user.perm === 0 &&
-          <a className="secondary-content cursor-pointer" onClick={() => this.promoteUser(user.username)}>
-            <i className="material-icons green-text">thumbs_up</i>
-          </a>
-        }
-        { user.perm === 1 &&
-          <a className="secondary-content cursor-pointer" onClick={() => this.demoteUser(user.username)}>
-            <i className="material-icons green-text">thumbs_down</i>
-          </a>
-        }
-        { user.verified &&
-          <a className="secondary-content cursor-pointer" onClick={() => this.deverifyUser(user.username)}>
-            <i className="material-icons red-text">clear</i>
-          </a>
-        }
-        { !user.verified &&
-          <a className="secondary-content cursor-pointer" onClick={() => this.verifyUser(user.username)}>
-            <i className="material-icons green-text">check</i>
-          </a>
-        }
+        <a className="secondary-content cursor-pointer">
+          { user.perm === 0 &&
+            <i className="material-icons green-text" onClick={ () => this.promoteUser(user.username) }>thumbs_up</i>
+          }
+          { user.perm === 1 &&
+            <i className="material-icons green-text" onClick={ () => this.demoteUser(user.username) }>thumbs_down</i>
+          }
+          { user.verified &&
+            <i className="material-icons red-text" onClick={ () => this.deverifyUser(user.username) }>clear</i>
+          }
+          { !user.verified &&
+            <i className="material-icons green-text" onClick={ () => this.verifyUser(user.username) }>check</i>
+          }
+        </a>
       </li>
     );
   }

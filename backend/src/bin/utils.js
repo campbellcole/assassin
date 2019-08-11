@@ -9,14 +9,15 @@ const LVL = {
 }
 
 function permFromCode(code) {
-  return Object.keys(LVL).find((elem) => {
-    return code === elem;
+  var t = Object.keys(LVL).find((elem) => {
+    return code === LVL[elem].code;
   });
+  return LVL[t];
 }
 
 function authLevel(req) {
-  if (undefined === req.user) return LVL.NONE;
-  else return permFromCode(req.user.perm);
+  if (undefined === req.user) return LVL.NONE.code;
+  return req.user.perm;
 }
 
 function deserializeUsers() {
