@@ -5,17 +5,32 @@ import { sendVerifyUser, sendDeverifyUser, sendPromoteUser, sendDemoteUser, user
 
 class UsersContainer extends React.Component {
 
-  constructor(users) {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      users: users.users,
-      eList: []
+      users: props.users,
+      eList: [],
+      selectedUsers: []
     }
     autoBind.react(this);
   }
 
   componentDidMount() {
     this.generateElements();
+  }
+
+  componentDidUpdate() {
+    if (!this.wasElems) {
+      var teList = [];
+      this.setState((state) => {
+        for (var user of state.users) {
+          teList.push(this.UserRow(user));
+        }
+        return { users: state.users, eList: teList, selectedUsers: state.selectedUsers }
+      })
+      this.wasElems = true;
+    } else this.wasElems = false;
+
   }
 
   render() {
@@ -35,12 +50,12 @@ class UsersContainer extends React.Component {
 
   generateElements() {
     var teList = [];
-    for (var user of this.state.users) {
-      teList.push(this.UserRow(user));
-    }
     this.setState((state) => {
-      return { users: state.users, eList: teList }
-    });
+      for (var user of state.users) {
+        teList.push(this.UserRow(user));
+      }
+      return { users: state.users, eList: teList, selectedUsers: state.selectedUsers }
+    })
   }
 
   verifyUser(username) {
@@ -71,41 +86,69 @@ class UsersContainer extends React.Component {
     alert("not yet implemented");
   }
 
+  toggleUser(username) {
+    var ind = this.state.selectedUsers.indexOf(username);
+    if (-1 !== ind) {
+      var t = this.state.selectedUsers.slice(0);
+      t.splice(ind, 1);
+      this.setState({ users: this.state.users, eList: this.state.eList, selectedUsers: t });
+    } else  {
+      var t = this.state.selectedUsers.slice(0);
+      t.push(username);
+      this.setState({ users: this.state.users, eList: this.state.eList, selectedUsers: t });
+    }
+  }
+
+  isToggled(username) {
+    console.log(this.state.selectedUsers.indexOf(username));
+    return (-1 !== this.state.selectedUsers.indexOf(username));
+  }
+
   _setUserValue(username, key, value) {
     for (var [index, value] of this.state.users.entries()) {
       if (username === value.username) {
         this.setState((state) => {
           var us = state.users.slice(0);
           us[index][key] = value;
-          return { users: us, eList: state.eList }
+          return { users: us, eList: state.eList, selectedUsers: state.selectedUsers }
         });
       }
     }
-    this.generateElements();
   }
 
   UserRow(user) {
     return (
       <li className="collection-item" key={ user.username }>
         { userToString(user) }
-        <a className="secondary-content cursor-pointer">
-          { user.perm === 0 &&
-            <i className="material-icons green-text" onClick={ () => this.promoteUser(user.username) }>thumbs_up</i>
-          }
-          { user.perm === 1 &&
-            <i className="material-icons green-text" onClick={ () => this.demoteUser(user.username) }>thumbs_down</i>
-          }
-          { user.verified &&
-            <i className="material-icons red-text" onClick={ () => this.deverifyUser(user.username) }>clear</i>
-          }
-          { !user.verified &&
-            <i className="material-icons green-text" onClick={ () => this.verifyUser(user.username) }>check</i>
-          }
+        <a className="secondary-content cursor-pointer" onClick={ () => this.toggleUser(user.username) }>
+          <i className="material-icons black-text">
+            { (this.state.selectedUsers.indexOf(user.username) !== -1) &&
+              "check_box"
+            }
+            { (this.state.selectedUsers.indexOf(user.username) === -1) &&
+              "check_box_outline_blank"
+            }
+          </i>
         </a>
       </li>
     );
   }
-
+  /*
+  <a className="secondary-content cursor-pointer">
+    { user.perm === 0 &&
+      <i className="material-icons green-text" onClick={ () => this.promoteUser(user.username) }>thumbs_up</i>
+    }
+    { user.perm === 1 &&
+      <i className="material-icons green-text" onClick={ () => this.demoteUser(user.username) }>thumbs_down</i>
+    }
+    { user.verified &&
+      <i className="material-icons red-text" onClick={ () => this.deverifyUser(user.username) }>clear</i>
+    }
+    { !user.verified &&
+      <i className="material-icons green-text" onClick={ () => this.verifyUser(user.username) }>check</i>
+    }
+  </a>
+  */
 }
 
 export default UsersContainer;
