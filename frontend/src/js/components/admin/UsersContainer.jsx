@@ -1,7 +1,7 @@
 import React from "react";
 import autoBind from "auto-bind";
 
-import { sendVerifyUser, sendDeverifyUser, sendPromoteUser, sendDemoteUser, userToString } from "../../utils.js";
+import { sendVerifyUser, sendDeverifyUser, sendPromoteUser, sendDemoteUser, sendRemoveUser, userToString } from "../../utils.js";
 
 class UsersContainer extends React.Component {
 
@@ -100,6 +100,24 @@ class UsersContainer extends React.Component {
     alert("not yet implemented");
   }
 
+  removeUser() { // doesn't accept argument because i want to limit to 1 deletion at a time
+    if (1 === this.state.selectedUsers.length) {
+      sendRemoveUser(this.state.selectedUsers[0], () => {
+        this.setState((state) => {
+          var us = state.users.slice(0);
+          for (var [index, v] of us.entries()) {
+            if (v.username === this.state.selectedUsers[0]) {
+              us.splice(index, 1);
+            }
+          }
+          return { users: us, eList: state.eList, selectedUsers: state.selectedUsers }
+        });
+      });
+    } else {
+      M.toast({ html: "You can only remove 1 user at a time.", classes: "rounded red darken-2" });
+    }
+  }
+
   toggleUser(username) {
     var ind = this.state.selectedUsers.indexOf(username);
     if (-1 !== ind) {
@@ -185,6 +203,9 @@ class FunctionBox extends React.Component {
             </td>
             <td>
               <a className="cursor-pointer" onClick={ () => this.parent.demoteUsers() }>Demote</a>
+            </td>
+            <td>
+              <a className="cursor-pointer" onClick={ () => this.parent.removeUser() }>Remove</a>
             </td>
           </tr>
         </tbody>

@@ -7,3 +7,4 @@ try to get the registration process complete soon to allow a long period for reg
 fix the userscontainer
 add as much mobile compatibility as possible
 add a linter smh
+correct user deletion update

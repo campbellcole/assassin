@@ -32,6 +32,10 @@ function sendDemoteUser(username, then) {
   sendRequest("admin/demote", username, then);
 }
 
+function sendRemoveUser(username, then) {
+  sendRequest("admin/remove", username, then);
+}
+
 function userToString(user) {
   var s = "";
   if (!user.verified) s += "* ";
@@ -58,5 +62,6 @@ export {
   sendVerifyUser,
   sendDeverifyUser,
   sendPromoteUser,
+  sendRemoveUser,
   sendDemoteUser
 }

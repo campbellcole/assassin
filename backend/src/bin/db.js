@@ -71,6 +71,10 @@ class Database {
     return RET.OK;
   }
 
+  removeUser(username) {
+    this.db.get('users').remove((n) => { return n.username === username } ).write();
+  }
+
   getGameData() {
     return this.db.get('game').value();
   }

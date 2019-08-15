@@ -201,13 +201,13 @@ class AdminPage extends React.Component {
 
   render() {
     return (
-      <div className="container">
-      <h3 className="center-align">Moderation Panel</h3>
+      <div>
+        <h3 className="center-align">Moderation Panel</h3>
         <div className="row">
-          <div className="col s6 l5">
+          <div className="col s6 l4">
             <div id="users"></div>
           </div>
-          <div className="col s6 l5 offset-l2">
+          <div className="col s6 l4">
             <div id="teams"></div>
           </div>
         </div>

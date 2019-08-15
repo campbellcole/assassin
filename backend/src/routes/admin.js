@@ -40,6 +40,10 @@ router.get('/:command/:username', (req, res) => {
       if (LVL.ADMIN !== al) return res.status(401).send();
       dbres = db.demoteUser(username);
       break;
+    case 'remove':
+      if (LVL.ADMIN !== al) return res.status(401).send();
+      dbres = db.removeUser(username);
+      break;
     case 'user':
       if (LVL.USER === al) {
         if (username !== req.user.username) return res.status(401).send();
