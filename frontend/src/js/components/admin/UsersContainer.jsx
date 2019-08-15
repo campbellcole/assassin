@@ -21,38 +21,36 @@ class UsersContainer extends React.Component {
 
   componentDidUpdate() {
     if (!this.wasElems) {
-      var teList = [];
-      this.setState((state) => {
-        for (var user of state.users) {
-          teList.push(this.UserRow(user));
-        }
-        return { users: state.users, eList: teList, selectedUsers: state.selectedUsers }
-      })
+      this.generateElements();
       this.wasElems = true;
     } else this.wasElems = false;
-
   }
 
   render() {
     return (
-      <ul className="collection with-header">
-        <li className="collection-header"><h4>Users</h4></li>
-        { this.state.eList }
-        <li className="collection-item" key="create">
-          <b>Create User</b>
-          <a className="secondary-content cursor-pointer" onClick={ () => this.openCreateUser() }>
-            <i className="material-icons grey-text darken-3">add_circle</i>
-          </a>
-        </li>
-      </ul>
+      <div>
+        <ul className="collection with-header">
+          <li className="collection-header"><h4>Users</h4></li>
+          { this.state.eList }
+          <li className="collection-item" key="create">
+            <b>Create User</b>
+            <a className="secondary-content cursor-pointer" onClick={ () => this.openCreateUser() }>
+              <i className="material-icons grey-text darken-3">add_circle</i>
+            </a>
+          </li>
+        </ul>
+        <h4>User Functions</h4>
+        <h6>{ this.state.selectedUsers.length + " users selected" }</h6>
+        <FunctionBox parent={ this }/>
+      </div>
     );
   }
 
   generateElements() {
-    var teList = [];
     this.setState((state) => {
+      var teList = [];
       for (var user of state.users) {
-        teList.push(this.UserRow(user));
+        teList.push(<UserRow user={ user } parent={ this } />);
       }
       return { users: state.users, eList: teList, selectedUsers: state.selectedUsers }
     })
@@ -64,10 +62,18 @@ class UsersContainer extends React.Component {
     });
   }
 
+  verifyUsers() {
+    this._performMassUserFunction(this.verifyUser);
+  }
+
   deverifyUser(username) {
     sendDeverifyUser(username, () => {
       this._setUserValue(username, 'verified', false);
     });
+  }
+
+  deverifyUsers() {
+    this._performMassUserFunction(this.deverifyUser);
   }
 
   promoteUser(username) {
@@ -76,10 +82,18 @@ class UsersContainer extends React.Component {
     });
   }
 
+  promoteUsers() {
+    this._performMassUserFunction(this.promoteUser);
+  }
+
   demoteUser(username) {
     sendDemoteUser(username, () => {
       this._setUserValue(username, 'perm', 0);
     });
+  }
+
+  demoteUsers() {
+    this._performMassUserFunction(this.demoteUser);
   }
 
   openCreateUser() {
@@ -100,13 +114,16 @@ class UsersContainer extends React.Component {
   }
 
   isToggled(username) {
-    console.log(this.state.selectedUsers.indexOf(username));
     return (-1 !== this.state.selectedUsers.indexOf(username));
   }
 
+  _performMassUserFunction(action) {
+    for (var username of this.state.selectedUsers) action(username);
+  }
+
   _setUserValue(username, key, value) {
-    for (var [index, value] of this.state.users.entries()) {
-      if (username === value.username) {
+    for (var [index, v] of this.state.users.entries()) {
+      if (username === v.username) {
         this.setState((state) => {
           var us = state.users.slice(0);
           us[index][key] = value;
@@ -115,17 +132,26 @@ class UsersContainer extends React.Component {
       }
     }
   }
+}
 
-  UserRow(user) {
+class UserRow extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.user = props.user;
+    this.parent = props.parent;
+  }
+
+  render() {
     return (
-      <li className="collection-item" key={ user.username }>
-        { userToString(user) }
-        <a className="secondary-content cursor-pointer" onClick={ () => this.toggleUser(user.username) }>
+      <li className="collection-item" key={ this.user.username }>
+        { userToString(this.user) }
+        <a className="secondary-content cursor-pointer" onClick={ () => this.parent.toggleUser(this.user.username) }>
           <i className="material-icons black-text">
-            { (this.state.selectedUsers.indexOf(user.username) !== -1) &&
+            { (this.parent.state.selectedUsers.indexOf(this.user.username) !== -1) &&
               "check_box"
             }
-            { (this.state.selectedUsers.indexOf(user.username) === -1) &&
+            { (this.parent.state.selectedUsers.indexOf(this.user.username) === -1) &&
               "check_box_outline_blank"
             }
           </i>
@@ -133,22 +159,39 @@ class UsersContainer extends React.Component {
       </li>
     );
   }
-  /*
-  <a className="secondary-content cursor-pointer">
-    { user.perm === 0 &&
-      <i className="material-icons green-text" onClick={ () => this.promoteUser(user.username) }>thumbs_up</i>
-    }
-    { user.perm === 1 &&
-      <i className="material-icons green-text" onClick={ () => this.demoteUser(user.username) }>thumbs_down</i>
-    }
-    { user.verified &&
-      <i className="material-icons red-text" onClick={ () => this.deverifyUser(user.username) }>clear</i>
-    }
-    { !user.verified &&
-      <i className="material-icons green-text" onClick={ () => this.verifyUser(user.username) }>check</i>
-    }
-  </a>
-  */
+
+}
+
+class FunctionBox extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.parent = props.parent;
+  }
+
+  render() {
+    return (
+      <table className="striped centered">
+        <tbody>
+          <tr>
+            <td>
+              <a className="cursor-pointer" onClick={ () => this.parent.verifyUsers() }>Verify</a>
+            </td>
+            <td>
+              <a className="cursor-pointer" onClick={ () => this.parent.deverifyUsers() }>Deverify</a>
+            </td>
+            <td>
+              <a className="cursor-pointer" onClick={ () => this.parent.promoteUsers() }>Promote</a>
+            </td>
+            <td>
+              <a className="cursor-pointer" onClick={ () => this.parent.demoteUsers() }>Demote</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    );
+  }
+
 }
 
 export default UsersContainer;

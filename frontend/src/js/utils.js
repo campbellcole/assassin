@@ -35,6 +35,7 @@ function sendDemoteUser(username, then) {
 function userToString(user) {
   var s = "";
   if (!user.verified) s += "* ";
+  if (1 === user.perm) s+= "+";
   s += user.username;
   s += " (" + user.name +") ";
   return s;

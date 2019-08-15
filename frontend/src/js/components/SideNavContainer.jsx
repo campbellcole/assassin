@@ -11,7 +11,6 @@ class SideNavContainer extends React.Component {
 
   render() {
     const { clickHandler, status } = this.props;
-    console.log(status);
     return (
       <div>
         <ul id="slide-out" className="sidenav">
