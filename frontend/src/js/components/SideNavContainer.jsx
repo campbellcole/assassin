@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { logout } from '../utils';
+import { logout } from '../utils.js';
 
 const SideNavContainer = ({ clickHandler, status }) => (
   <div>
@@ -24,7 +24,7 @@ const SideNavContainer = ({ clickHandler, status }) => (
 
 SideNavContainer.propTypes = {
   clickHandler: PropTypes.func.isRequired,
-  status: PropTypes.node.isRequired,
+  status: PropTypes.any.isRequired,
 };
 
 const SideNavItem = ({ text, clickHandler }) => (
@@ -41,4 +41,3 @@ SideNavItem.propTypes = {
 };
 
 export default SideNavContainer;
-export { SideNavItem };

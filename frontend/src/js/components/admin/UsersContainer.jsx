@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import {
   sendVerifyUser, sendDeverifyUser, sendPromoteUser, sendDemoteUser, sendRemoveUser, userToString,
-} from '../../utils';
+} from '../../utils.js';
 
 class UsersContainer extends React.Component {
   constructor(props) {
@@ -158,7 +158,7 @@ class UsersContainer extends React.Component {
 }
 
 UsersContainer.propTypes = {
-  users: PropTypes.arrayOf(PropTypes.node).isRequired,
+  users: PropTypes.array.isRequired,
 };
 
 const UserRow = ({ user, parent }) => (
@@ -176,8 +176,8 @@ const UserRow = ({ user, parent }) => (
 );
 
 UserRow.propTypes = {
-  user: PropTypes.node.isRequired,
-  parent: PropTypes.node.isRequired,
+  user: PropTypes.any.isRequired,
+  parent: PropTypes.any.isRequired,
 };
 
 const FunctionBox = ({ parent }) => (
@@ -205,7 +205,7 @@ const FunctionBox = ({ parent }) => (
 );
 
 FunctionBox.propTypes = {
-  parent: PropTypes.node.isRequired,
+  parent: PropTypes.any.isRequired,
 };
 
 export default UsersContainer;

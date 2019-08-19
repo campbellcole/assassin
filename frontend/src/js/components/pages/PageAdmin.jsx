@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import UsersContainer from '../admin/UsersContainer';
-import TeamsContainer from '../admin/TeamsContainer';
+import UsersContainer from '../admin/UsersContainer.jsx';
+import TeamsContainer from '../admin/TeamsContainer.jsx';
 
 import { getJSON } from '../../utils';
 

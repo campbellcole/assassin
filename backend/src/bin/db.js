@@ -34,8 +34,8 @@ class Database {
   constructor(path) {
     this.adapter = new FileSync(path);
     this.db = low(this.adapter);
-    this.db.defaults(this.getDefaults()).write();
-    autoBind();
+    this.db.defaults(Database.getDefaults()).write();
+    autoBind(this);
   }
 
   verifyUser(username) {

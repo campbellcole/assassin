@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import autoBind from 'auto-bind';
 
-import TeamContainer from './TeamContainer';
+import TeamContainer from './TeamContainer.jsx';
 
 class TeamsContainer extends React.Component {
   static displayTeam(team) {

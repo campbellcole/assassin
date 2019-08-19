@@ -1,7 +1,7 @@
 import React from 'react';
 import autoBind from 'auto-bind';
 
-import { userToString, userFromUsername } from '../../utils';
+import { userToString, userFromUsername } from '../../utils.js';
 
 class TeamContainer extends React.Component {
   constructor(team) {

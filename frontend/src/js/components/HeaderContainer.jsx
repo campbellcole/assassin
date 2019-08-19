@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { logout } from '../utils';
+import { logout } from '../utils.js';
 
 const HeaderContainer = ({ currentPage, status, clickHandler }) => (
   <nav className="grey darken-3">
@@ -28,7 +28,7 @@ const HeaderContainer = ({ currentPage, status, clickHandler }) => (
 
 HeaderContainer.propTypes = {
   currentPage: PropTypes.number.isRequired,
-  status: PropTypes.node.isRequired,
+  status: PropTypes.any.isRequired,
   clickHandler: PropTypes.func.isRequired,
 };
 
@@ -47,4 +47,3 @@ HeaderItem.propTypes = {
 };
 
 export default HeaderContainer;
-export { HeaderItem };

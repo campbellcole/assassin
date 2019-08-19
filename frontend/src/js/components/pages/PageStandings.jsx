@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import StandingsContainer from './StandingsContainer';
+import StandingsContainer from './StandingsContainer.jsx';
 
 import { getJSON } from '../../utils';
 

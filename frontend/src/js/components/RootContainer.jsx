@@ -7,18 +7,25 @@ import { getJSON } from '../utils';
 // eslint-disable-next-line no-unused-vars
 import css from '../../css/Root.css';
 
-import PageAdmin from './pages/PageAdmin';
-import PageDashboard from './pages/PageDashboard';
-import PageHome from './pages/PageHome';
-import PageLogin from './pages/PageLogin';
-import PageRegister from './pages/PageRegister';
-import PageStandings from './pages/PageStandings';
+import PageAdmin from './pages/PageAdmin.jsx';
+import PageDashboard from './pages/PageDashboard.jsx';
+import PageHome from './pages/PageHome.jsx';
+import PageLogin from './pages/PageLogin.jsx';
+import PageRegister from './pages/PageRegister.jsx';
+import PageStandings from './pages/PageStandings.jsx';
 
-import HeaderContainer from './HeaderContainer';
-import SideNavContainer from './SideNavContainer';
-import FooterContainer from './FooterContainer';
+import HeaderContainer from './HeaderContainer.jsx';
+import SideNavContainer from './SideNavContainer.jsx';
+import FooterContainer from './FooterContainer.jsx';
 
-const pages = [PageAdmin, PageDashboard, PageHome, PageLogin, PageRegister, PageStandings];
+const pages = [
+  <PageHome />,
+  <PageRegister />,
+  <PageLogin />,
+  <PageDashboard />,
+  <PageStandings />,
+  <PageAdmin />,
+];
 
 class RootContainer extends React.Component {
   constructor() {
@@ -52,7 +59,6 @@ class RootContainer extends React.Component {
 
   render() {
     const { currentPage, status } = this.state;
-    const CurrentPage = pages[currentPage];
     return (
       <div className="content">
         <HeaderContainer
@@ -62,9 +68,9 @@ class RootContainer extends React.Component {
         />
         <SideNavContainer status={status} clickHandler={(ind) => this.loadPage(ind)} />
         <div id="page">
-          <CurrentPage />
+          {pages[currentPage]}
         </div>
-        <FooterContainer />
+        {FooterContainer}
       </div>
     );
   }
