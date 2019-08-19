@@ -1,20 +1,26 @@
-import React from "react";
-import ReactDOM from "react-dom";
+import React from 'react';
 
-import autoBind from "auto-bind";
+import autoBind from 'auto-bind';
 
-import { getJSON } from "../utils.js";
+import { getJSON } from '../utils';
 
-import css from "../../css/Root.css";
+// eslint-disable-next-line no-unused-vars
+import css from '../../css/Root.css';
 
-import { pages } from "./Pages.jsx"
+import PageAdmin from './pages/PageAdmin';
+import PageDashboard from './pages/PageDashboard';
+import PageHome from './pages/PageHome';
+import PageLogin from './pages/PageLogin';
+import PageRegister from './pages/PageRegister';
+import PageStandings from './pages/PageStandings';
 
-import HeaderContainer from "./HeaderContainer.jsx";
-import SideNavContainer from "./SideNavContainer.jsx";
-import FooterContainer from "./FooterContainer.jsx";
+import HeaderContainer from './HeaderContainer';
+import SideNavContainer from './SideNavContainer';
+import FooterContainer from './FooterContainer';
+
+const pages = [PageAdmin, PageDashboard, PageHome, PageLogin, PageRegister, PageStandings];
 
 class RootContainer extends React.Component {
-
   constructor() {
     super();
     this.state = {
@@ -22,38 +28,39 @@ class RootContainer extends React.Component {
       status: {
         username: undefined,
         level: -1,
-        loggedIn: false
-      }
-    }
+        loggedIn: false,
+      },
+    };
     autoBind.react(this);
   }
 
   componentDidMount() {
-    getJSON("login/lstat", "", (res) => {
-      this.setState((state) => {
-        return {
-          currentPage: state.currentPage,
-          status: res
-        }
-      })
+    getJSON('login/lstat', '', (res) => {
+      this.setState((state) => ({
+        currentPage: state.currentPage,
+        status: res,
+      }));
     });
   }
 
   loadPage(index) {
-    this.setState((state) => {
-      return {
-        currentPage: index,
-        status: state.status
-      }
-    });
+    this.setState((state) => ({
+      currentPage: index,
+      status: state.status,
+    }));
   }
 
   render() {
-    const CurrentPage = pages[this.state.currentPage];
+    const { currentPage, status } = this.state;
+    const CurrentPage = pages[currentPage];
     return (
       <div className="content">
-        <HeaderContainer currentPage={ this.state.currentPage } status={ this.state.status } clickHandler={ (ind) => this.loadPage(ind) } />
-        <SideNavContainer status={ this.state.status } clickHandler={ (ind) => this.loadPage(ind) } />
+        <HeaderContainer
+          currentPage={currentPage}
+          status={status}
+          clickHandler={(ind) => this.loadPage(ind)}
+        />
+        <SideNavContainer status={status} clickHandler={(ind) => this.loadPage(ind)} />
         <div id="page">
           <CurrentPage />
         </div>
@@ -61,7 +68,6 @@ class RootContainer extends React.Component {
       </div>
     );
   }
-
 }
 
 export default RootContainer;

@@ -1,13 +1,12 @@
 import express from 'express';
-var router = express.Router();
 
 import { db } from '../app';
 import { RET } from '../bin/db';
 import { authLevel, permFromCode, LVL } from '../bin/utils';
 
-router.get('/', (req, res) => {
-  return res.send('test');
-});
+const router = express.Router();
+
+router.get('/', (req, res) => res.send('test'));
 
 router.get('/users', (req, res) => {
   if (LVL.ADMIN !== permFromCode(authLevel(req))) return res.status(401).send();
@@ -20,10 +19,10 @@ router.get('/teams', (req, res) => {
 });
 
 router.get('/:command/:username', (req, res) => {
-  var { command, username } = req.params;
-  var al = permFromCode(authLevel(req));
-  var dbres = RET.UNKNOWN;
-  switch(command) {
+  const { command, username } = req.params;
+  const al = permFromCode(authLevel(req));
+  let dbres = RET.UNKNOWN;
+  switch (command) {
     case 'verify':
       if (LVL.ADMIN !== al) return res.status(401).send();
       dbres = db.verifyUser(username);
@@ -56,7 +55,7 @@ router.get('/:command/:username', (req, res) => {
       break;
   }
   if (RET.UNKNOWN === dbres) return res.status(406).json({ errors: 'unknown command' });
-  else return res.status(200).end();
+  return res.status(200).end();
 });
 
 export default router;

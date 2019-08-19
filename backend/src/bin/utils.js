@@ -1,17 +1,15 @@
 import User from './struct/user';
 import { db } from '../app';
-import { RET } from '../bin/db';
+import { RET } from './db';
 
 const LVL = {
   NONE: { code: -1 },
   USER: { code: 0 },
-  ADMIN: { code : 1 }
-}
+  ADMIN: { code: 1 },
+};
 
 function permFromCode(code) {
-  var t = Object.keys(LVL).find((elem) => {
-    return code === LVL[elem].code;
-  });
+  const t = Object.keys(LVL).find((elem) => code === LVL[elem].code);
   return LVL[t];
 }
 
@@ -21,34 +19,34 @@ function authLevel(req) {
 }
 
 function deserializeUsers() {
-  var users = [];
-  var serUsers = db.getUsers();
-  for (var su of serUsers) {
-    var user = new User(
+  const users = [];
+  const serUsers = db.getUsers();
+  serUsers.forEach((su) => {
+    const user = new User(
       su.username,
       su.perm,
       su.password,
       su.name,
       su.email,
       su.phone,
-      su.verified
+      su.verified,
     );
     users.push(user);
-  }
+  });
   return users;
 }
 
 function deserializeUser(username) {
-  var su = db.getUser(username);
+  const su = db.getUser(username);
   if (RET.USER_NOT_FOUND === su) return su;
-  var user = new User(
+  const user = new User(
     su.username,
     su.perm,
     su.password,
     su.name,
     su.email,
     su.phone,
-    su.verified
+    su.verified,
   );
   return user;
 }
@@ -58,5 +56,5 @@ export {
   permFromCode,
   authLevel,
   deserializeUsers,
-  deserializeUser
-}
+  deserializeUser,
+};

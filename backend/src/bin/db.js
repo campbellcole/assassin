@@ -1,10 +1,8 @@
 import low from 'lowdb';
 import FileSync from 'lowdb/adapters/FileSync';
 
-import User from './struct/user';
 import autoBind from 'auto-bind';
-
-import { LVL } from './utils';
+import User from './struct/user';
 
 const RET = {
   UNKNOWN: { code: -1, msg: 'unauthorized' },
@@ -12,32 +10,32 @@ const RET = {
   USER_NOT_FOUND: { code: 1, msg: 'user not found' },
   USER_ALREADY_EXISTS: { code: 2, msg: 'user already exists' },
   EMAIL_ALREADY_IN_USE: { code: 3, msg: 'email address already in use' },
-  PHONE_ALREADY_IN_USE: { code: 4, msg: 'phone number already in use' }
-}
+  PHONE_ALREADY_IN_USE: { code: 4, msg: 'phone number already in use' },
+};
 
 class Database {
-
-  constructor(path) {
-    this.adapter = new FileSync(path);
-    this.db = low(this.adapter);
-    this.db.defaults(this.getDefaults()).write();
-  }
-
-  getDefaults() {
+  static getDefaults() {
     return {
-      users: [               // default password is 'password'
-        new User('admin', 1, '$2b$10$gBUmQdmfX.xJIjhmGTzrn.arOPJtss1CT.I2CvGidA0zbX1m6f/nS', 'test name', 'email', 'phone', true)
+      users: [
+        new User('admin', 1, '$2b$10$gBUmQdmfX.xJIjhmGTzrn.arOPJtss1CT.I2CvGidA0zbX1m6f/nS', 'test name', 'email', 'phone', true),
       ],
       game: {
         in_progress: false,
         teams: [
           {
             name: 'test team',
-            users: [ 'admin' ]
-          }
-        ]
-      }
-    }
+            users: ['admin'],
+          },
+        ],
+      },
+    };
+  }
+
+  constructor(path) {
+    this.adapter = new FileSync(path);
+    this.db = low(this.adapter);
+    this.db.defaults(this.getDefaults()).write();
+    autoBind();
   }
 
   verifyUser(username) {
@@ -61,18 +59,18 @@ class Database {
   }
 
   addUser(username, password, name, email, phone, verified) {
-    if (this._keyExists('users', 'username', user)) return RET.USER_ALREADY_EXISTS;
+    if (this._keyExists('users', 'username', username)) return RET.USER_ALREADY_EXISTS;
     if (this._keyExists('users', 'email', email)) return RET.EMAIL_ALREADY_IN_USE;
     if (this._keyExists('users', 'phone', phone)) return RET.PHONE_ALREADY_IN_USE;
-    var user = new User(username, 0, password, name, email, phone, verified);
+    const user = new User(username, 0, password, name, email, phone, verified);
     this.db.get('users')
-           .push(user)
-           .write();
+      .push(user)
+      .write();
     return RET.OK;
   }
 
   removeUser(username) {
-    this.db.get('users').remove((n) => { return n.username === username } ).write();
+    this.db.get('users').remove((n) => n.username === username).write();
   }
 
   getGameData() {
@@ -84,16 +82,16 @@ class Database {
   }
 
   _setUserProperty(username, prop, val) {
-    var user = this._getUser(username);
+    const user = this._getUser(username);
     if (undefined === user.value()) return RET.USER_NOT_FOUND;
     user.set(prop, val).write();
     return RET.OK;
   }
 
   _getUserSanitary(username) {
-    var u = this._getUser(username).value();
+    const u = this._getUser(username).value();
     if (undefined === u) return RET.USER_NOT_FOUND;
-    else return u;
+    return u;
   }
 
   _getUser(username) {
@@ -103,7 +101,6 @@ class Database {
   _keyExists(set, key, val) {
     return undefined === this.db.get(set).find([key, val]).value();
   }
-
 }
 
 export default Database;

@@ -18,7 +18,7 @@ import loginRouter from './routes/login';
 import adminRouter from './routes/admin';
 import gameRouter from './routes/game';
 
-var db = new Database(path.join(__dirname, '../private/db.json'));
+const db = new Database(path.join(__dirname, '../private/db.json'));
 
 const app = express();
 
@@ -31,14 +31,12 @@ app.use(express.urlencoded({ extended: false }));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser(config.secret));
 app.use(session({
-  genid: (req) => {
-    return uuid();
-  },
+  genid: () => uuid(),
   store: new FileStore({ secret: config.secret }),
   secret: config.secret,
   resave: false,
-  saveUninitialized: true
- }));
+  saveUninitialized: true,
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 

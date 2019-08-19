@@ -1,60 +1,61 @@
-import React from "react";
-import autoBind from "auto-bind";
+import React from 'react';
+import autoBind from 'auto-bind';
 
-import { userToString, userFromUsername } from "../../utils.js";
+import { userToString, userFromUsername } from '../../utils';
 
 class TeamContainer extends React.Component {
-
   constructor(team) {
     super();
     this.team = team.team;
     this.state = {
-      eList: []
-    }
+      eList: [],
+    };
     autoBind.react(this);
   }
 
   componentDidMount() {
     this.getUsersOnTeam((users) => {
       this.generateElements(users);
-    })
+    });
+  }
+
+  getUsersOnTeam(then) {
+    const l = this.team.users.length;
+    let ct = 0;
+    const users = [];
+    this.team.users.forEach((username) => {
+      userFromUsername(username, (user) => {
+        users.push(user);
+        ct += 1;
+        if (l === ct) then(users);
+      });
+    });
+  }
+
+  generateElements(users) {
+    const teList = [];
+    users.forEach((user) => {
+      teList.push(
+        <p key={user.username}>
+          { userToString(user) }
+        </p>,
+      );
+    });
+    this.setState({ eList: teList });
   }
 
   render() {
+    const { eList } = this.state;
     return (
       <div className="center-align card grey darken-1">
         <div className="card-content white-text">
           <span className="card-title">
             { this.team.name }
           </span>
-          { this.state.eList }
+          { eList }
         </div>
       </div>
     );
-  }
-
-  getUsersOnTeam(then) {
-    var l = this.team.users.length;
-    var ct = 0;
-    var users = [];
-    for (var username of this.team.users) {
-      userFromUsername(username, (user) => {
-        users.push(user);
-        if (l === ++ct) then(users);
-      });
-    }
-  }
-
-  generateElements(users) {
-    var teList = [];
-    for (var user of users) {
-      teList.push(
-        <p key={ user.username }>
-          { userToString(user) }
-        </p>
-      );
-    }
-    this.setState({ eList: teList });
   }
 }
 

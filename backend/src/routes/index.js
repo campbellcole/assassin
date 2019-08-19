@@ -1,8 +1,7 @@
 import express from 'express';
-var router = express.Router();
 
-router.get('/', function(req, res, next) {
-  res.render('index');
-});
+const router = express.Router();
+
+router.get('/', (res) => res.render('index'));
 
 export default router;
